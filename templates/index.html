@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hellcore Network — mc.hellcore.in</title>
+<link rel="icon" href="/static/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Oxanium:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/skinview3d@3.0.0-rc.3/bundles/skinview3d.bundle.js"></script>
+<style>
+/* ═══════ ROOT ═══════ */
+:root{
+  --g:#FFD700;--g2:#FFA500;--g3:#7a5300;
+  --r2:#ff3300;--grn:#00dd55;
+  --bg:#060710;--p1:rgba(4,5,14,.94);--p2:rgba(7,9,18,.97);
+  --bd:rgba(255,165,0,.15);--bd2:rgba(255,200,0,.3);
+  --tx:#eeeeff;--tx2:#6677aa;--tx3:#3a3a5a;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100vh;font-family:'Rajdhani',sans-serif;color:var(--tx);background:var(--bg);overflow-x:hidden}
+#BG{position:fixed;inset:0;z-index:0;background:url('/static/shadimg.png') center/cover no-repeat fixed}
+#BG::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,3,10,.84)0%,rgba(2,3,10,.74)50%,rgba(2,3,10,.88)100%)}
+#APP{position:relative;z-index:1;min-height:100vh}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--g3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--g)}
+
+/* ═══════ NAVBAR ═══════ */
+#NAV{position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;
+  background:rgba(2,3,10,.98);border-bottom:1.5px solid var(--bd2);
+  backdrop-filter:blur(20px);display:flex;align-items:center;padding:0 10px;gap:1px}
+.nlogo{display:flex;align-items:center;gap:9px;cursor:pointer;margin-right:7px;flex-shrink:0}
+.nlogo img{height:40px;width:40px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,100,0,.75));transition:filter .2s}
+.nlogo:hover img{filter:drop-shadow(0 0 18px rgba(255,180,0,.9))}
+.nlogo-t{font-family:'Oxanium',sans-serif;line-height:1.1}
+.nlogo-t b{display:block;font-size:.88rem;font-weight:800;background:linear-gradient(135deg,#fff,var(--g),var(--r2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nlogo-t small{display:block;font-size:.5rem;color:var(--tx2);letter-spacing:.22em}
+.nlinks{display:flex;flex:1;overflow:hidden}
+.nb{background:transparent;border:none;color:var(--tx2);font-family:'Rajdhani',sans-serif;font-size:.73rem;font-weight:700;
+  padding:4px 8px;cursor:pointer;border-radius:4px;text-transform:uppercase;letter-spacing:.04em;
+  transition:all .14s;white-space:nowrap}
+.nb:hover,.nb.on{color:var(--g);background:rgba(255,165,0,.09)}
+.nright{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.srv{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.55);border:1px solid var(--bd);
+  padding:3px 9px;border-radius:20px;font-size:.65rem;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;background:#333;transition:all .3s;flex-shrink:0}
+.dot.ON{background:var(--grn);box-shadow:0 0 6px var(--grn);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ═══════ BUTTONS ═══════ */
+.btn{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--g3),var(--g));color:#000;
+  border:none;padding:8px 15px;border-radius:4px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.78rem;
+  cursor:pointer;transition:all .17s;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;user-select:none}
+.btn:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(255,165,0,.35)}
+.btn:active{transform:none}
+.bto{background:transparent;border:1px solid var(--bd2);color:var(--g);padding:7px 13px;border-radius:4px;
+  font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;transition:all .17s;
+  text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.bto:hover{background:rgba(255,165,0,.08);border-color:var(--g)}
+.bred{background:linear-gradient(135deg,#550000,var(--r2));color:#fff}
+.bgrn{background:linear-gradient(135deg,#003300,var(--grn));color:#000}
+.bsm{padding:5px 9px;font-size:.71rem}
+.bxs{padding:3px 7px;font-size:.66rem}
+
+/* ═══════ PANELS ═══════ */
+.p{background:var(--p1);border:1px solid var(--bd);border-radius:5px;padding:16px;backdrop-filter:blur(8px)}
+.p2{background:var(--p2);border:1px solid var(--bd2);border-radius:5px;padding:16px}
+
+/* ═══════ PAGES ═══════ */
+.pg{display:none;min-height:100vh;padding:64px 12px 32px}
+.pg.ON{display:block}
+.W{max-width:1160px;margin:0 auto}
+.Ws{max-width:800px;margin:0 auto}
+
+/* ═══════ TYPE ═══════ */
+.ptitle{font-family:'Oxanium',sans-serif;font-size:clamp(1.3rem,3.5vw,2.2rem);font-weight:800;
+  background:linear-gradient(135deg,#fff,var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-align:center;margin-bottom:6px}
+.psub{color:var(--tx2);text-align:center;margin-bottom:22px;font-size:.84rem}
+.stitle{font-family:'Oxanium',sans-serif;font-size:.9rem;font-weight:700;color:var(--g);margin-bottom:11px;
+  display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:1px;background:var(--bd)}
+
+/* ═══════ GRIDS ═══════ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:900px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+/* ═══════ FORMS ═══════ */
+.fg{margin-bottom:11px}
+.fg label{display:block;font-size:.68rem;color:var(--tx2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.inp{width:100%;background:rgba(0,0,0,.6);border:1px solid var(--bd);color:var(--tx);padding:8px 11px;
+  border-radius:4px;font-family:'Rajdhani',sans-serif;font-size:.86rem;outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--g)}
+textarea.inp{resize:vertical;min-height:72px;line-height:1.6}
+select.inp option{background:#0a0b18}
+.pwrap{position:relative}
+.pwrap .inp{padding-right:34px}
+.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;
+  color:var(--tx2);cursor:pointer;font-size:.9rem;padding:2px;transition:color .14s}
+.eye:hover{color:var(--g)}
+.ferr{color:var(--r2);font-size:.73rem;margin-top:4px;min-height:16px}
+
+/* ═══════ TABS ═══════ */
+.tabs{display:flex;background:rgba(0,0,0,.44);border:1px solid var(--bd);border-radius:4px;padding:3px;
+  margin-bottom:14px;gap:2px;flex-wrap:wrap}
+.tab{flex:1;padding:5px 9px;background:transparent;border:none;color:var(--tx2);font-family:'Rajdhani',sans-serif;
+  font-size:.73rem;font-weight:700;cursor:pointer;border-radius:3px;text-transform:uppercase;
+  letter-spacing:.04em;transition:all .14s;white-space:nowrap}
+.tab.ON{background:rgba(255,165,0,.16);color:var(--g)}
+
+/* ═══════ RANK BADGES ═══════ */
+.rb{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.62rem;font-weight:700;
+  letter-spacing:.04em;font-family:'Oxanium',sans-serif;vertical-align:middle}
+.rb-default,.rb-player{background:#111;color:#555}
+.rb-vip{background:#071407;color:#44ee44;border:1px solid #44ee4440}
+.rb-vipplus{background:#001212;color:#00ddcc;border:1px solid #00ddcc40}
+.rb-mvp{background:#150e00;color:#ffaa00;border:1px solid #ffaa0040}
+.rb-mvpplus{background:#150000;color:#ff4444;border:1px solid #ff444440}
+.rb-helper{background:#000d22;color:#5599ff;border:1px solid #5599ff40}
+.rb-mod{background:#001514;color:#00cc66;border:1px solid #00cc6640}
+.rb-dev{background:#0e0018;color:#bb44ff;border:1px solid #bb44ff40}
+.rb-admin{background:#150600;color:#ff8800;border:1px solid #ff880040}
+.rb-owner{background:#150000;color:#ff2222;border:1px solid #ff222240}
+.rb-founder{background:#151200;color:#ffd700;border:1px solid #ffd70040}
+.rb-youtube{background:#1d0000;color:#ff0000;border:1px solid #ff000040}
+.rb-famous{background:#120020;color:#ff77ff;border:1px solid #ff77ff40}
+
+/* ═══════ STORE CARDS ═══════ */
+.sc{background:var(--p2);border:1px solid var(--bd);border-radius:8px;padding:16px;text-align:center;
+  transition:all .22s;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cc,var(--g)),transparent)}
+.sc:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,165,0,.14);border-color:var(--bd2)}
+.sc-ic{font-size:2rem;margin-bottom:7px}
+.sc-nm{font-family:'Oxanium',sans-serif;font-size:.84rem;font-weight:700;margin-bottom:4px}
+.sc-pr{font-size:1.5rem;font-weight:800;font-family:'Oxanium',sans-serif;
+  background:linear-gradient(135deg,var(--g),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0}
+.sc-pk{text-align:left;font-size:.73rem;color:var(--tx2);list-style:none;margin:8px 0;flex:1}
+.sc-pk li{padding:2px 0}
+.sc-pk li::before{content:'✦ ';color:var(--g);font-size:.58rem}
+
+/* ═══════ LEADERBOARD ═══════ */
+.lh,.lr{display:grid;grid-template-columns:40px 1fr 64px 64px 64px 64px 88px;gap:5px;padding:7px 11px;font-size:.77rem;align-items:center}
+.lh{color:var(--g);font-size:.67rem;text-transform:uppercase;letter-spacing:.04em;font-weight:700;border-bottom:1px solid var(--bd)}
+.lr{border-bottom:1px solid rgba(255,165,0,.05);transition:background .12s}
+.lr:hover{background:rgba(255,165,0,.04)}
+.r1{color:#FFD700;font-weight:700}.r2{color:#C0C0C0;font-weight:700}.r3{color:#CD7F32;font-weight:700}
+
+/* ═══════ FORUM ═══════ */
+.frow{background:var(--p1);border:1px solid var(--bd);border-radius:5px;padding:10px 13px;margin-bottom:5px;
+  cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;transition:all .14s}
+.frow:hover{border-color:var(--bd2);background:rgba(255,165,0,.025)}
+.frep{background:rgba(0,0,0,.4);border-left:3px solid var(--bd);padding:9px 13px;margin:5px 0;border-radius:0 4px 4px 0}
+.frep.staff{border-left-color:var(--g)}
+
+/* ═══════ TICKETS ═══════ */
+.tmsg{background:rgba(0,0,0,.38);border-radius:5px;padding:9px 12px;margin:5px 0}
+.tmsg.mine{background:rgba(255,165,0,.07);border:1px solid var(--bd)}
+
+/* ═══════ HERO ═══════ */
+.hero{text-align:center;padding:55px 14px 44px}
+.hero h1{font-family:'Oxanium',sans-serif;font-size:clamp(2.8rem,8vw,6rem);font-weight:800;line-height:.9;
+  background:linear-gradient(135deg,#fff 0%,var(--g) 36%,var(--r2) 70%,#ffcc00 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 30px rgba(255,80,0,.44))}
+.hero-sub{color:var(--tx2);font-size:.93rem;margin:10px 0 18px;letter-spacing:.07em}
+.hero-ip{display:inline-block;font-family:'Oxanium',sans-serif;font-size:1rem;font-weight:700;
+  background:rgba(0,0,0,.75);border:2px solid var(--g);color:var(--g);padding:9px 26px;
+  border-radius:4px;letter-spacing:.18em;margin-bottom:20px;cursor:pointer;transition:all .17s}
+.hero-ip:hover{background:rgba(255,165,0,.08);box-shadow:0 0 24px rgba(255,165,0,.26)}
+.hbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.mc{background:var(--p2);border:1px solid var(--bd);border-radius:8px;padding:18px 14px;text-align:center;transition:all .22s;cursor:pointer}
+.mc:hover{transform:translateY(-4px);border-color:var(--bd2);box-shadow:0 12px 34px rgba(255,165,0,.14)}
+.mc .mi{font-size:2.2rem;margin-bottom:8px;display:block}
+.mc h3{font-family:'Oxanium',sans-serif;font-size:.79rem;color:var(--g);margin-bottom:5px}
+.mc p{font-size:.74rem;color:var(--tx2);line-height:1.55}
+
+/* ═══════ MODALS ═══════ */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;align-items:center;justify-content:center;padding:14px}
+.ov.OPEN{display:flex}
+.mdl{background:var(--p2);border:1px solid var(--bd2);border-radius:10px;padding:24px;width:100%;max-width:450px;max-height:92vh;overflow-y:auto;box-shadow:0 28px 70px rgba(0,0,0,.94)}
+.mhd{font-family:'Oxanium',sans-serif;color:var(--g);font-size:.97rem;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.mcl{background:none;border:none;color:var(--tx2);font-size:1.15rem;cursor:pointer;padding:0;transition:color .14s}
+.mcl:hover{color:var(--r2)}
+
+/* ═══════ CAPTCHA ═══════ */
+.capwrap{display:flex;align-items:center;gap:9px;background:rgba(0,0,0,.55);border:1px solid var(--bd);
+  border-radius:4px;padding:9px 11px;margin-bottom:11px}
+.capcode{font-family:'Oxanium',monospace;font-size:1.2rem;font-weight:700;color:var(--g);
+  letter-spacing:.36em;user-select:none;text-shadow:0 0 9px rgba(255,165,0,.42);filter:blur(.28px);min-width:120px}
+.capinp{width:88px!important;font-family:'Oxanium',monospace!important;letter-spacing:.14em!important;text-transform:uppercase!important}
+.capref{background:none;border:none;color:var(--g);cursor:pointer;font-size:1rem;padding:3px;transition:transform .3s}
+.capref:hover{transform:rotate(180deg)}
+
+/* ═══════ SERVER BARS ═══════ */
+.sbar{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.44);
+  border:1px solid var(--bd);border-radius:4px;padding:8px 12px;margin-bottom:5px}
+.sbar-n{font-weight:600;font-size:.83rem}.sbar-c{font-weight:700;color:var(--grn);font-size:.83rem}
+
+/* ═══════ TOASTS ═══════ */
+#TOASTS{position:fixed;bottom:18px;right:18px;z-index:9000;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.toast{background:var(--p2);border-left:3px solid var(--bd2);padding:9px 14px;border-radius:4px;
+  font-size:.79rem;min-width:220px;animation:tin .25s ease;pointer-events:all;display:flex;align-items:center;gap:7px;box-shadow:0 4px 20px rgba(0,0,0,.6)}
+.toast.ok{border-left-color:var(--grn)}.toast.err{border-left-color:var(--r2)}
+@keyframes tin{from{transform:translateX(110%);opacity:0}to{transform:none;opacity:1}}
+
+/* ═══════ MISC ═══════ */
+.ld{display:flex;align-items:center;justify-content:center;padding:28px;color:var(--tx2);gap:8px;font-size:.82rem}
+.sp{width:18px;height:18px;border:2px solid var(--bd);border-top-color:var(--g);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dv{height:1px;background:var(--bd);margin:13px 0}
+.empty{color:var(--tx2);text-align:center;padding:26px;font-size:.82rem}
+.bwrap{position:relative;display:inline-block}
+.cbadge{position:absolute;top:-6px;right:-6px;background:var(--r2);color:#fff;font-size:.56rem;font-weight:700;
+  min-width:15px;height:15px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px}
+.tag{display:inline-block;padding:1px 7px;border-radius:3px;font-size:.67rem;font-weight:700;background:rgba(255,165,0,.11);color:var(--g)}
+.dtbl{width:100%;border-collapse:collapse;font-size:.79rem}
+.dtbl th{color:var(--g);text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);font-family:'Oxanium',sans-serif;font-size:.68rem}
+.dtbl td{padding:6px 8px;border-bottom:1px solid rgba(255,165,0,.05)}
+.uuid-t{font-size:.62rem;color:var(--tx2);font-family:monospace;word-break:break-all;margin-top:3px}
+
+/* ═══════ SKIN CANVAS ═══════ */
+#SV{display:block;border-radius:8px;background:rgba(0,0,0,.48);border:1px solid var(--bd);cursor:grab;margin:0 auto}
+#SV:active{cursor:grabbing}
+</style>
+</head>
+<body>
+<div id="BG"></div>
+<div id="APP">
+
+<!-- ════════════ NAVBAR ════════════ -->
+<nav id="NAV">
+  <div class="nlogo" onclick="GO('home')">
+    <img src="/static/logo.png" alt="HC" onerror="this.style.display='none'">
+    <div class="nlogo-t"><b>HELLCORE</b><small>NETWORK</small></div>
+  </div>
+  <div class="nlinks">
+    <button class="nb on"  onclick="GO('home')">🏠 Home</button>
+    <button class="nb"     onclick="GO('store')">🛒 Store</button>
+    <button class="nb"     onclick="GO('players')">👤 Players</button>
+    <button class="nb"     onclick="GO('forums')">💬 Forums</button>
+    <button class="nb"     onclick="GO('games')">🎮 Games</button>
+    <button class="nb"     onclick="GO('rules')">📜 Rules</button>
+    <button class="nb"     onclick="GO('about')">ℹ About</button>
+    <button class="nb" id="NB-STAFF" style="display:none" onclick="GO('staff')">⚡ Staff</button>
+    <button class="nb" id="NB-ADMIN" style="display:none" onclick="GO('admin')">🔧 Admin</button>
+  </div>
+  <div class="nright">
+    <div class="srv"><div class="dot" id="DOT"></div><span id="STXT">Checking…</span></div>
+    <div id="A-OUT" style="display:flex;gap:5px">
+      <button class="bto bsm" onclick="openM('ML')">Login</button>
+      <button class="btn bsm" onclick="openM('MR')">Register</button>
+    </div>
+    <div id="A-IN" style="display:none;align-items:center;gap:5px">
+      <button class="bto bsm" onclick="GO('profile')" id="NB-ME">👤</button>
+      <div class="bwrap">
+        <button class="btn bsm" onclick="GO('cart')">🛒 Cart</button>
+        <span class="cbadge" id="CBG" style="display:none">0</span>
+      </div>
+      <button class="bto bsm" onclick="doLogout()">Exit</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════ HOME ════════════ -->
+<div class="pg ON" id="pg-home"><div class="W">
+  <div class="hero">
+    <h1>HELLCORE</h1>
+    <div class="hero-sub">Bedwars · Lifesteal · SkyWars · Survival · Practice</div>
+    <div class="hero-ip" onclick="copyIP()">mc.hellcore.in</div>
+    <div class="hbtns">
+      <button class="btn"  onclick="GO('store')">🛒 Shop Now</button>
+      <button class="bto"  onclick="GO('players')">🏆 Leaderboards</button>
+      <button class="bto"  onclick="GO('forums')">💬 Forums</button>
+    </div>
+  </div>
+  <div class="stitle">⚡ Live Server Status</div>
+  <div id="HOME-SRV" class="p" style="margin-bottom:20px"><div class="ld"><div class="sp"></div>Connecting…</div></div>
+  <div class="stitle">🎮 Gamemodes</div>
+  <div class="g4" style="margin-bottom:20px">
+    <div class="mc" onclick="GO('store-bw')"><span class="mi">🛏️</span><h3>Bedwars</h3><p>Protect your bed &amp; eliminate rivals</p></div>
+    <div class="mc" onclick="GO('store-ls')"><span class="mi">❤️</span><h3>Lifesteal</h3><p>Steal hearts, be the last standing</p></div>
+    <div class="mc" onclick="GO('store-sw')"><span class="mi">☁️</span><h3>SkyWars</h3><p>Battle across floating sky islands</p></div>
+    <div class="mc" onclick="GO('store-sv')"><span class="mi">🌲</span><h3>Survival</h3><p>Build, craft and thrive together</p></div>
+    <div class="mc" onclick="GO('store-pr')"><span class="mi">⚔️</span><h3>Practice</h3><p>Sharpen PvP — 2 combined servers</p></div>
+    <div class="mc" onclick="GO('forums')"><span class="mi">💬</span><h3>Forums</h3><p>Community discussions</p></div>
+    <div class="mc" onclick="GO('players')"><span class="mi">🏆</span><h3>Leaderboards</h3><p>See who's dominating</p></div>
+    <div class="mc" onclick="NL(()=>GO('profile'))"><span class="mi">🎁</span><h3>Gifts</h3><p>Gift ranks to friends</p></div>
+  </div>
+  <div class="p" style="text-align:center;padding:24px">
+    <div style="font-family:'Oxanium',sans-serif;color:var(--g);margin-bottom:7px">Ready to play?</div>
+    <p style="color:var(--tx2);margin-bottom:14px">Java Edition · <strong style="color:var(--g)">mc.hellcore.in</strong></p>
+    <button class="btn" onclick="copyIP()">📋 Copy Server IP</button>
+  </div>
+</div></div>
+
+<!-- ════════════ STORE HUB ════════════ -->
+<div class="pg" id="pg-store"><div class="W">
+  <div class="ptitle">🛒 Hellcore Store</div>
+  <p class="psub">Select a gamemode to browse ranks and packages</p>
+  <div class="g3">
+    <div class="mc" onclick="GO('store-gl')"><span class="mi">🌍</span><h3>Global</h3><p>Priority Queue · Gold · Iron</p></div>
+    <div class="mc" onclick="GO('store-bw')"><span class="mi">🛏️</span><h3>Bedwars</h3><p>Ranks · Mystery · Coins</p></div>
+    <div class="mc" onclick="GO('store-ls')"><span class="mi">❤️</span><h3>Lifesteal</h3><p>VIP · VIP+ · MVP · MVP+</p></div>
+    <div class="mc" onclick="GO('store-sw')"><span class="mi">☁️</span><h3>SkyWars</h3><p>VIP · VIP+ · MVP · MVP+</p></div>
+    <div class="mc" onclick="GO('store-sv')"><span class="mi">🌲</span><h3>Survival</h3><p>VIP · VIP+ · MVP · MVP+</p></div>
+    <div class="mc" onclick="GO('store-pr')"><span class="mi">⚔️</span><h3>Practice</h3><p>VIP · VIP+ · MVP · MVP+</p></div>
+  </div>
+</div></div>
+
+<div class="pg" id="pg-store-gl"><div class="W"><button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Back</button><div class="ptitle">🌍 Global Store</div><div class="g3" id="S-GL"></div></div></div>
+<div class="pg" id="pg-store-bw"><div class="W"><button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Back</button><div class="ptitle">🛏️ Bedwars Store</div><div class="tabs" id="BW-T"><button class="tab ON" onclick="bwT('ranks')">🏅 Ranks</button><button class="tab" onclick="bwT('mystery')">📦 Mystery</button><button class="tab" onclick="bwT('coins')">🪙 Coins</button></div><div class="g4" id="S-BW"></div></div></div>
+<div class="pg" id="pg-store-ls"><div class="W"><button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Back</button><div class="ptitle">❤️ Lifesteal Store</div><div class="g4" id="S-LS"></div></div></div>
+<div class="pg" id="pg-store-sw"><div class="W"><button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Back</button><div class="ptitle">☁️ SkyWars Store</div><div class="g4" id="S-SW"></div></div></div>
+<div class="pg" id="pg-store-sv"><div class="W"><button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Back</button><div class="ptitle">🌲 Survival Store</div><div class="g4" id="S-SV"></div></div></div>
+<div class="pg" id="pg-store-pr"><div class="W"><button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Back</button><div class="ptitle">⚔️ Practice Store</div><div class="g4" id="S-PR"></div></div></div>
+
+<!-- CART -->
+<div class="pg" id="pg-cart"><div class="Ws">
+  <button class="bto bsm" onclick="GO('store')" style="margin-bottom:12px">← Continue Shopping</button>
+  <div class="ptitle">🛒 Your Cart</div>
+  <div id="CART-L"></div><div id="CART-TOT" style="margin-top:12px"></div>
+</div></div>
+
+<!-- ════════════ PLAYERS ════════════ -->
+<div class="pg" id="pg-players"><div class="W">
+  <div class="ptitle">👤 Players</div>
+  <div class="tabs">
+    <button class="tab ON" onclick="plT('skin')">🔍 Skin Viewer</button>
+    <button class="tab"    onclick="plT('lb')">🏆 Leaderboard</button>
+    <button class="tab"    onclick="plT('stats')">📊 Stats</button>
+  </div>
+
+  <!-- SKIN VIEWER -->
+  <div id="T-SKIN">
+    <div class="g2" style="gap:20px;align-items:start">
+      <div>
+        <div class="p" style="margin-bottom:12px">
+          <div class="stitle">Player Lookup</div>
+          <div class="fg">
+            <label>Minecraft Username</label>
+            <input id="SK-IN" type="text" class="inp" placeholder="Enter any username…"
+              autocomplete="off" autocorrect="off" spellcheck="false"
+              onkeydown="if(event.key==='Enter')doSkin()">
+          </div>
+          <button class="btn" onclick="doSkin()" id="SK-BTN">🔍 Look Up</button>
+          <div class="ferr" id="SK-ERR"></div>
+        </div>
+        <div id="SK-INFO" style="display:none" class="p">
+          <div style="display:flex;gap:13px;align-items:flex-start;margin-bottom:13px">
+            <!-- ★ Using our Flask proxy instead of crafatar -->
+            <img id="SK-HEAD" width="72" height="72" style="image-rendering:pixelated;border-radius:5px;flex-shrink:0" src="" alt="">
+            <div style="flex:1;min-width:0">
+              <div id="SK-NAME" style="font-family:'Oxanium',sans-serif;font-size:1.05rem;color:var(--g);font-weight:700"></div>
+              <div id="SK-UUID" class="uuid-t"></div>
+              <div id="SK-RANKS" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px"></div>
+            </div>
+          </div>
+          <div id="SK-STAT-MINI" style="font-size:.75rem;color:var(--tx2);margin-bottom:11px"></div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <a id="SK-DL" href="#" class="btn bsm" download="skin.png">⬇ Skin</a>
+            <button class="bto bsm" onclick="reload3D()">🔄 Refresh</button>
+          </div>
+        </div>
+      </div>
+      <div class="p" style="text-align:center">
+        <div class="stitle" style="justify-content:center;margin-bottom:11px">3D Skin &amp; Cape Viewer</div>
+        <canvas id="SV" width="260" height="360"></canvas>
+        <div style="font-size:.68rem;color:var(--tx2);margin-top:6px">Drag to rotate · Scroll to zoom</div>
+        <div id="SV-INFO" style="font-size:.7rem;color:var(--tx2);margin-top:3px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="T-LB" style="display:none">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <select id="LB-M" class="inp" style="width:auto" onchange="loadLB()">
+        <option value="bedwars">🛏️ Bedwars</option>
+        <option value="lifesteal">❤️ Lifesteal</option>
+        <option value="skywars">☁️ SkyWars</option>
+        <option value="survival">🌲 Survival</option>
+        <option value="practice">⚔️ Practice</option>
+      </select>
+      <select id="LB-S" class="inp" style="width:auto" onchange="loadLB()">
+        <option value="wins">Wins</option><option value="kills">Kills</option>
+        <option value="deaths">Deaths</option><option value="coins">Coins</option>
+      </select>
+    </div>
+    <div class="p">
+      <div class="lh"><span>#</span><span>Player</span><span>Wins</span><span>Kills</span><span>Deaths</span><span>K/D</span><span>Rank</span></div>
+      <div id="LB-R"><div class="ld"><div class="sp"></div>Loading…</div></div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div id="T-STATS" style="display:none">
+    <div class="p" style="margin-bottom:12px">
+      <div class="fg"><label>Hellcore Username</label>
+        <input id="PS-IN" type="text" class="inp" placeholder="Search a player…" autocomplete="off" onkeydown="if(event.key==='Enter')loadPS()">
+      </div>
+      <button class="btn" onclick="loadPS()">View Stats</button>
+    </div>
+    <div id="PS-RES"></div>
+  </div>
+</div></div>
+
+<!-- ════════════ FORUMS ════════════ -->
+<div class="pg" id="pg-forums"><div class="Ws">
+  <div class="ptitle">💬 Forums</div>
+  <div id="F-LIST">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+      <select id="F-CAT" class="inp" style="width:auto" onchange="loadForums()">
+        <option value="">All</option><option value="general">General</option>
+        <option value="announcements">Announcements</option><option value="help">Help</option>
+        <option value="suggestions">Suggestions</option><option value="offtopic">Off-Topic</option>
+      </select>
+      <button class="btn" onclick="NL(()=>openM('MF'))">+ New Thread</button>
+    </div>
+    <div id="F-ROWS"></div>
+  </div>
+  <div id="F-THREAD" style="display:none">
+    <button class="bto bsm" onclick="backF()" style="margin-bottom:10px">← Forums</button>
+    <div id="F-TC"></div>
+    <div class="p" style="margin-top:12px">
+      <div class="stitle">Post a Reply</div>
+      <div class="fg"><textarea id="F-RPLY" class="inp" rows="4" placeholder="Write your reply…"></textarea></div>
+      <button class="btn" onclick="postReply()">Post Reply</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- ════════════ MINIGAMES ════════════ -->
+<div class="pg" id="pg-games"><div class="W">
+  <div class="ptitle">🎮 Minigames</div>
+  <div class="g3">
+    <div class="p"><div style="font-size:2.2rem;margin-bottom:9px">🛏️</div><div class="stitle">Bedwars</div><p style="color:var(--tx2);font-size:.82rem;line-height:1.75;margin-bottom:12px">Defend your bed, gather resources and be the last team standing!</p><div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"><span class="tag">4–16 Players</span><span class="tag">20+ Maps</span><span class="tag">Solo/Teams</span></div><button class="btn bsm" onclick="GO('store-bw')">View Ranks</button></div>
+    <div class="p"><div style="font-size:2.2rem;margin-bottom:9px">❤️</div><div class="stitle">Lifesteal</div><p style="color:var(--tx2);font-size:.82rem;line-height:1.75;margin-bottom:12px">Kill players to steal their hearts. Lose hearts when you die. Ultra-high-stakes PvP!</p><div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"><span class="tag">Open World</span><span class="tag">Hearts System</span><span class="tag">PvP</span></div><button class="btn bsm" onclick="GO('store-ls')">View Ranks</button></div>
+    <div class="p"><div style="font-size:2.2rem;margin-bottom:9px">☁️</div><div class="stitle">SkyWars</div><p style="color:var(--tx2);font-size:.82rem;line-height:1.75;margin-bottom:12px">Battle across floating sky islands. Loot chests, bridge and be the last one standing!</p><div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"><span class="tag">Sky Islands</span><span class="tag">Chest Loot</span><span class="tag">Solo/Teams</span></div><button class="btn bsm" onclick="GO('store-sw')">View Ranks</button></div>
+    <div class="p"><div style="font-size:2.2rem;margin-bottom:9px">🌲</div><div class="stitle">Survival</div><p style="color:var(--tx2);font-size:.82rem;line-height:1.75;margin-bottom:12px">Classic survival with custom economy, land claiming and regular events!</p><div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"><span class="tag">Economy</span><span class="tag">Land Claim</span><span class="tag">Events</span></div><button class="btn bsm" onclick="GO('store-sv')">View Ranks</button></div>
+    <div class="p"><div style="font-size:2.2rem;margin-bottom:9px">⚔️</div><div class="stitle">Practice</div><p style="color:var(--tx2);font-size:.82rem;line-height:1.75;margin-bottom:12px">1v1 duels, aim training and ELO-based ranked matches. <strong style="color:var(--g)">2 combined servers!</strong></p><div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px"><span class="tag">1v1 Duels</span><span class="tag">ELO Rating</span><span class="tag">2 Servers</span></div><button class="btn bsm" onclick="GO('store-pr')">View Ranks</button></div>
+    <div class="p" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center"><div style="font-size:2.2rem;margin-bottom:9px">🌐</div><div class="stitle" style="justify-content:center">Hub Lobby</div><p style="color:var(--tx2);font-size:.82rem;line-height:1.75;margin-bottom:12px">Central hub connecting all gamemodes with community activities.</p><button class="btn bsm" onclick="GO('store-gl')">Global Store</button></div>
+  </div>
+</div></div>
+
+<!-- ════════════ RULES ════════════ -->
+<div class="pg" id="pg-rules"><div class="Ws">
+  <div class="ptitle">📜 Server Rules</div>
+  <p class="psub">Violations may result in mute, kick, ban or permanent IP-ban.</p>
+  <div class="p" style="margin-bottom:12px"><div class="stitle">§1 — General Conduct</div><ul style="list-style:none;color:var(--tx2);font-size:.84rem;line-height:2.1"><li>✦ Respect all players and staff at all times</li><li>✦ No hate speech, racism, sexism or discrimination</li><li>✦ No spamming or flooding any chat</li><li>✦ No advertising other Minecraft servers</li><li>✦ Keep global chat family-friendly and in English</li></ul></div>
+  <div class="p" style="margin-bottom:12px"><div class="stitle">§2 — Gameplay</div><ul style="list-style:none;color:var(--tx2);font-size:.84rem;line-height:2.1"><li>✦ No hacking, cheating or unauthorized client mods</li><li>✦ No exploiting bugs — report them to staff immediately</li><li>✦ No teaming in solo gamemodes</li><li>✦ No stat boosting or account sharing</li><li>✦ Allowed: Optifine, Sodium, Fabric API, Replay Mod</li></ul></div>
+  <div class="p" style="margin-bottom:12px"><div class="stitle">§3 — Store &amp; Trading</div><ul style="list-style:none;color:var(--tx2);font-size:.84rem;line-height:2.1"><li>✦ No chargebacks — all purchases are final</li><li>✦ No real-money trading outside the official store</li><li>✦ No scamming players in trades</li></ul></div>
+  <div class="p"><div class="stitle">§4 — Punishments</div><p style="color:var(--tx2);font-size:.84rem;line-height:2">Warning → Mute → Temp Ban → Permanent Ban<br>Hacking = Immediate Permanent Ban<br>Appeal via <span style="color:var(--g);cursor:pointer" onclick="GO('tickets')">Support Tickets</span>.</p></div>
+</div></div>
+
+<!-- ════════════ ABOUT ════════════ -->
+<div class="pg" id="pg-about"><div class="Ws">
+  <div class="ptitle">ℹ About Hellcore</div>
+  <div class="g2" style="margin-bottom:14px">
+    <div class="p"><div class="stitle">Our Story</div><p style="color:var(--tx2);line-height:1.85;font-size:.83rem">Hellcore Network was built with one goal: to deliver the most thrilling and fair Minecraft PvP experience. We believe every player should rise through skill alone. Our team works non-stop improving gameplay, banning cheaters, and listening to our community.</p></div>
+    <div class="p"><div class="stitle">Server Info</div><table style="width:100%;font-size:.82rem;border-collapse:collapse"><tr><td style="color:var(--tx2);padding:4px 0">IP</td><td style="color:var(--g);font-weight:700">mc.hellcore.in</td></tr><tr><td style="color:var(--tx2);padding:4px 0">Version</td><td>Java 1.8 – 1.21</td></tr><tr><td style="color:var(--tx2);padding:4px 0">Region</td><td>Asia (India)</td></tr><tr><td style="color:var(--tx2);padding:4px 0">Platform</td><td>Java Edition</td></tr><tr><td style="color:var(--tx2);padding:4px 0">Modes</td><td>5 + Hub</td></tr><tr><td style="color:var(--tx2);padding:4px 0">Practice</td><td>2 Servers Combined</td></tr></table></div>
+  </div>
+  <div class="p" style="margin-bottom:14px"><div class="stitle">Staff Team</div><div id="ABOUT-S"><div class="ld"><div class="sp"></div></div></div></div>
+</div></div>
+
+<!-- ════════════ STAFF (secret) ════════════ -->
+<div class="pg" id="pg-staff"><div class="Ws">
+  <div class="ptitle">⚡ Staff Panel</div>
+  <div id="STAFF-PNL"></div>
+</div></div>
+
+<!-- ════════════ ADMIN ════════════ -->
+<div class="pg" id="pg-admin"><div class="W">
+  <div class="ptitle">🔧 Admin Panel</div>
+  <div class="tabs">
+    <button class="tab ON" onclick="adT('users')">👥 Users</button>
+    <button class="tab"    onclick="adT('stats')">📊 Stats</button>
+    <button class="tab"    onclick="adT('ranks')">🏅 Ranks</button>
+    <button class="tab"    onclick="adT('eco')">💰 Economy</button>
+  </div>
+  <div id="ADM-U"><div class="p"><div id="ADM-TBL"><div class="ld"><div class="sp"></div></div></div></div></div>
+  <div id="ADM-S" style="display:none"><div class="p"><div class="stitle">Set Player Stats</div><div class="g2">
+    <div class="fg"><label>Username</label><input id="AS-U" class="inp" autocomplete="off"></div>
+    <div class="fg"><label>Gamemode</label><select id="AS-M" class="inp"><option value="bedwars">Bedwars</option><option value="lifesteal">Lifesteal</option><option value="skywars">SkyWars</option><option value="survival">Survival</option><option value="practice">Practice</option></select></div>
+    <div class="fg"><label>Kills</label><input id="AS-K" class="inp" type="number" value="0"></div>
+    <div class="fg"><label>Deaths</label><input id="AS-D" class="inp" type="number" value="0"></div>
+    <div class="fg"><label>Wins</label><input id="AS-W" class="inp" type="number" value="0"></div>
+    <div class="fg"><label>Coins</label><input id="AS-C" class="inp" type="number" value="0"></div>
+  </div><button class="btn" onclick="aStats()">Save Stats</button></div></div>
+  <div id="ADM-R" style="display:none"><div class="p"><div class="stitle">Set Rank</div><div class="g2">
+    <div class="fg"><label>Username</label><input id="AR-U" class="inp" autocomplete="off"></div>
+    <div class="fg"><label>Gamemode</label><select id="AR-M" class="inp"><option value="bedwars">Bedwars</option><option value="lifesteal">Lifesteal</option><option value="skywars">SkyWars</option><option value="survival">Survival</option><option value="practice">Practice</option><option value="global">Global</option></select></div>
+    <div class="fg"><label>Rank</label><select id="AR-R" class="inp"><option value="default">Default</option><option value="vip">VIP</option><option value="vipplus">VIP+</option><option value="mvp">MVP</option><option value="mvpplus">MVP+</option></select></div>
+  </div><button class="btn" onclick="aRank()">Set Rank</button></div></div>
+  <div id="ADM-E" style="display:none"><div class="p"><div class="stitle">Set Economy</div><div class="g2">
+    <div class="fg"><label>Username</label><input id="AE-U" class="inp" autocomplete="off"></div>
+    <div class="fg"><label>Server Gold</label><input id="AE-G" class="inp" type="number" value="0"></div>
+    <div class="fg"><label>Server Iron</label><input id="AE-I" class="inp" type="number" value="0"></div>
+  </div><button class="btn" onclick="aEco()">Set Economy</button></div></div>
+</div></div>
+
+<!-- ════════════ PROFILE ════════════ -->
+<div class="pg" id="pg-profile"><div class="Ws">
+  <div class="ptitle">👤 My Account</div>
+  <div class="tabs">
+    <button class="tab ON" onclick="prT('ov')">Overview</button>
+    <button class="tab"    onclick="prT('inv')">Inventory</button>
+    <button class="tab"    onclick="prT('gifts')">🎁 Gifts</button>
+    <button class="tab"    onclick="prT('tix')">🎫 Tickets</button>
+  </div>
+  <div id="PR-OV">
+    <div class="g2" style="gap:14px">
+      <div class="p">
+        <div style="text-align:center;margin-bottom:14px">
+          <!-- ★ Proxy head via Flask, not crafatar -->
+          <img id="PR-HEAD" width="78" height="78"
+            style="image-rendering:pixelated;border-radius:8px;display:block;margin:0 auto 7px" src="" alt="" onerror="this.style.display='none'">
+          <div id="PR-NAME" style="font-family:'Oxanium',sans-serif;font-size:1.05rem;color:var(--g);font-weight:700"></div>
+          <div id="PR-ROLE" style="margin-top:4px"></div>
+        </div>
+        <table style="width:100%;font-size:.8rem;border-collapse:collapse">
+          <tr><td style="color:var(--tx2);padding:4px 0">Email:</td><td id="PR-EMAIL"></td></tr>
+          <tr><td style="color:var(--tx2);padding:4px 0">MC Name:</td><td id="PR-MC"></td></tr>
+        </table>
+      </div>
+      <div class="p"><div class="stitle">Economy</div><div id="PR-ECO"></div><div class="dv"></div><div class="stitle">My Ranks</div><div id="PR-RANKS"></div></div>
+    </div>
+  </div>
+  <div id="PR-INV" style="display:none"><div class="p"><div id="PR-INV-L"></div></div></div>
+  <div id="PR-GIFTS" style="display:none">
+    <div class="p" style="margin-bottom:12px">
+      <div class="stitle">🎁 Send a Gift</div>
+      <div class="g2">
+        <div class="fg"><label>Recipient Username</label><input id="GFT-TO" class="inp" autocomplete="off" placeholder="Hellcore username"></div>
+        <div class="fg"><label>Item</label><select id="GFT-IT" class="inp"><option>VIP</option><option>VIP+</option><option>MVP</option><option>MVP+</option></select></div>
+        <div class="fg"><label>Gamemode</label><select id="GFT-GM" class="inp"><option value="bedwars">Bedwars</option><option value="lifesteal">Lifesteal</option><option value="skywars">SkyWars</option><option value="survival">Survival</option><option value="practice">Practice</option></select></div>
+      </div>
+      <button class="btn" onclick="sendGift()">🎁 Send Gift</button>
+    </div>
+    <div class="p"><div class="stitle">Pending Gifts for You</div><div id="PGIFTS"></div></div>
+  </div>
+  <div id="PR-TIX" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="color:var(--tx2);font-size:.83rem">Your support tickets</span>
+      <button class="btn bsm" onclick="openM('MT')">+ New Ticket</button>
+    </div>
+    <div id="PR-TIX-L"></div>
+  </div>
+</div></div>
+
+<!-- ════════════ TICKETS PAGE ════════════ -->
+<div class="pg" id="pg-tickets"><div class="Ws">
+  <div class="ptitle">🎫 Support Tickets</div>
+  <div id="TIX-LIST">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <p style="color:var(--tx2);font-size:.83rem">Get help from our staff team</p>
+      <button class="btn" onclick="NL(()=>openM('MT'))">+ New Ticket</button>
+    </div>
+    <div id="TIX-L"></div>
+  </div>
+  <div id="TIX-DET" style="display:none">
+    <button class="bto bsm" onclick="closeTixD()" style="margin-bottom:10px">← Back</button>
+    <div id="TIX-DET-C"></div>
+  </div>
+</div></div>
+
+<!-- ════════════ MODALS ════════════ -->
+
+<!-- LOGIN -->
+<div class="ov" id="ML"><div class="mdl">
+  <div class="mhd">Login to Hellcore <button class="mcl" onclick="closeM('ML')">✕</button></div>
+  <div class="fg"><label>Email or Username</label>
+    <input id="LG-ID" type="text" class="inp" placeholder="email@example.com or username"
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  </div>
+  <div class="fg"><label>Password</label>
+    <div class="pwrap">
+      <input id="LG-PW" type="password" class="inp" placeholder="Your password"
+        autocomplete="new-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="eye" type="button" onclick="togPW('LG-PW',this)">👁</button>
+    </div>
+  </div>
+  <div class="capwrap">
+    <div><div style="font-size:.64rem;color:var(--tx2);margin-bottom:2px">Enter this code:</div>
+      <div class="capcode" id="LG-CC"></div></div>
+    <input id="LG-CI" type="text" class="inp capinp" placeholder="Code" autocomplete="off" maxlength="6">
+    <button class="capref" type="button" onclick="genCap('LG')" title="New code">↻</button>
+  </div>
+  <div class="ferr" id="LG-ERR"></div>
+  <button class="btn" style="width:100%;margin-top:6px" onclick="doLogin()">Login</button>
+  <p style="text-align:center;margin-top:10px;font-size:.76rem;color:var(--tx2)">
+    No account? <a href="#" onclick="swM('ML','MR')" style="color:var(--g)">Register here</a>
+  </p>
+</div></div>
+
+<!-- REGISTER -->
+<div class="ov" id="MR"><div class="mdl">
+  <div class="mhd">Create Account <button class="mcl" onclick="closeM('MR')">✕</button></div>
+  <div class="fg"><label>Email <span style="color:var(--r2)">*</span></label>
+    <input id="RG-EM" type="text" class="inp" placeholder="your@email.com" autocomplete="off" autocorrect="off">
+  </div>
+  <div class="fg"><label>Username <span style="color:var(--r2)">*</span> (3–20 chars)</label>
+    <input id="RG-US" type="text" class="inp" placeholder="CoolPlayer123" autocomplete="off" autocorrect="off" spellcheck="false">
+  </div>
+  <div class="fg"><label>Minecraft Username <span style="color:var(--tx3)">(optional)</span></label>
+    <input id="RG-MC" type="text" class="inp" placeholder="YourMCName" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="fg"><label>Password <span style="color:var(--r2)">*</span></label>
+    <div class="pwrap">
+      <input id="RG-PW" type="password" class="inp" placeholder="At least 6 characters" autocomplete="new-password">
+      <button class="eye" type="button" onclick="togPW('RG-PW',this)">👁</button>
+    </div>
+  </div>
+  <div class="fg"><label>Confirm Password <span style="color:var(--r2)">*</span></label>
+    <div class="pwrap">
+      <input id="RG-P2" type="password" class="inp" placeholder="Repeat password" autocomplete="new-password" onkeydown="if(event.key==='Enter')doReg()">
+      <button class="eye" type="button" onclick="togPW('RG-P2',this)">👁</button>
+    </div>
+  </div>
+  <div class="capwrap">
+    <div><div style="font-size:.64rem;color:var(--tx2);margin-bottom:2px">Enter this code:</div>
+      <div class="capcode" id="RG-CC"></div></div>
+    <input id="RG-CI" type="text" class="inp capinp" placeholder="Code" autocomplete="off" maxlength="6">
+    <button class="capref" type="button" onclick="genCap('RG')" title="New code">↻</button>
+  </div>
+  <div class="ferr" id="RG-ERR"></div>
+  <button class="btn" style="width:100%;margin-top:6px" onclick="doReg()">Create Account</button>
+  <p style="text-align:center;margin-top:10px;font-size:.76rem;color:var(--tx2)">
+    Have account? <a href="#" onclick="swM('MR','ML')" style="color:var(--g)">Login</a>
+  </p>
+</div></div>
+
+<!-- NEW FORUM -->
+<div class="ov" id="MF"><div class="mdl">
+  <div class="mhd">New Thread <button class="mcl" onclick="closeM('MF')">✕</button></div>
+  <div class="fg"><label>Title</label><input id="NF-TI" type="text" class="inp" placeholder="Thread title…" autocomplete="off"></div>
+  <div class="fg"><label>Category</label>
+    <select id="NF-CA" class="inp"><option value="general">General</option><option value="announcements">Announcements</option>
+      <option value="help">Help &amp; Support</option><option value="suggestions">Suggestions</option><option value="offtopic">Off-Topic</option></select>
+  </div>
+  <div class="fg"><label>Content</label><textarea id="NF-CO" class="inp" rows="7" placeholder="Write your post…"></textarea></div>
+  <button class="btn" style="width:100%" onclick="submitF()">Post Thread</button>
+</div></div>
+
+<!-- NEW TICKET -->
+<div class="ov" id="MT"><div class="mdl">
+  <div class="mhd">New Ticket <button class="mcl" onclick="closeM('MT')">✕</button></div>
+  <div class="fg"><label>Title</label><input id="NT-TI" type="text" class="inp" placeholder="Brief description…" autocomplete="off"></div>
+  <div class="fg"><label>Category</label>
+    <select id="NT-CA" class="inp"><option value="general">General</option><option value="ban-appeal">Ban Appeal</option>
+      <option value="purchase">Purchase Issue</option><option value="bug">Bug Report</option><option value="report">Player Report</option></select>
+  </div>
+  <div class="fg"><label>Description</label><textarea id="NT-DE" class="inp" rows="5" placeholder="Describe your issue…"></textarea></div>
+  <button class="btn" style="width:100%" onclick="submitTix()">Submit Ticket</button>
+</div></div>
+
+<div id="TOASTS"></div>
+</div><!-- #APP -->
+
+<script>
+'use strict';
+// ════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════
+let ME=null, TOK=null, CART_N=0;
+let SV3D=null, LAST_UUID=null, LAST_UNAME=null;
+const CAPS={LG:'',RG:''};
+let CUR_FORUM=null;
+
+// ════════════════════════════════════════════════════
+// BOOT
+// ════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  // ★ Restore session — no logout on refresh
+  const t=localStorage.getItem('hc_t'), u=localStorage.getItem('hc_u');
+  if(t&&u){TOK=t;try{ME=JSON.parse(u);}catch(e){}refreshUI();}
+
+  genCap('LG'); genCap('RG');
+
+  // Close overlay on backdrop click
+  document.querySelectorAll('.ov').forEach(o=>{
+    o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('OPEN'); });
+  });
+
+  buildStores();
+  checkStatus();
+  setInterval(checkStatus,30000);
+  loadAbout();
+});
+
+// ════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════
+function GO(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('ON'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  const pg=I('pg-'+id); if(pg) pg.classList.add('ON');
+  window.scrollTo(0,0);
+  // Mark active nav button
+  const base=id.split('-')[0];
+  document.querySelectorAll('.nb').forEach(b=>{
+    if(b.textContent.toLowerCase().includes(base)) b.classList.add('on');
+  });
+  ({
+    forums:  loadForums,
+    players: ()=>{ plT('skin'); initSV3D(); },
+    profile: ()=>{ if(ME){loadProfile();loadInv();loadGifts();loadProfTix();}else openM('ML'); },
+    tickets: loadTix,
+    staff:   loadStaff,
+    admin:   ()=>{ adT('users'); loadAdmU(); },
+    cart:    renderCart,
+    about:   loadAbout,
+  })[id]?.();
+}
+
+// ════════════════════════════════════════════════════
+// UI REFRESH
+// ════════════════════════════════════════════════════
+function refreshUI(){
+  const li=!!ME;
+  I('A-OUT').style.display=li?'none':'flex';
+  I('A-IN').style.display =li?'flex':'none';
+  if(!li)return;
+  I('NB-ME').textContent='👤 '+ME.username;
+  I('NB-STAFF').style.display=isStaff()?'':'none';
+  I('NB-ADMIN').style.display=isAdmin()?'':'none';
+  // Update profile head with Flask proxy
+  if(ME.mc_username){
+    const h=I('PR-HEAD');
+    if(h) h.src=`/api/skin/head/${enc(ME.mc_username)}/74`;
+  }
+  updateCart();
+}
+const isStaff=()=>ME&&['helper','mod','dev','admin','owner','founder','youtube','famous'].includes(ME.role);
+const isAdmin=()=>ME&&['admin','owner','founder'].includes(ME.role);
+
+// ════════════════════════════════════════════════════
+// CAPTCHA — new code every open, every error
+// ════════════════════════════════════════════════════
+function genCap(t){
+  const ch='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let c=''; for(let i=0;i<5;i++) c+=ch[Math.floor(Math.random()*ch.length)];
+  CAPS[t]=c;
+  const el=I(t+'-CC'); if(el) el.textContent=c.split('').join(' ');
+  const inp=I(t+'-CI'); if(inp) inp.value='';
+}
+
+// ════════════════════════════════════════════════════
+// MODALS
+// ════════════════════════════════════════════════════
+function openM(id){
+  const el=I(id); if(!el)return;
+  if(id==='ML') genCap('LG');
+  if(id==='MR') genCap('RG');
+  el.classList.add('OPEN');
+}
+function closeM(id){ I(id)?.classList.remove('OPEN'); }
+function swM(a,b){ closeM(a); openM(b); }
+function NL(fn){ if(!ME) openM('ML'); else fn(); }
+
+// ════════════════════════════════════════════════════
+// PASSWORD TOGGLE
+// ════════════════════════════════════════════════════
+function togPW(id,btn){
+  const el=I(id); if(!el)return;
+  el.type=el.type==='password'?'text':'password';
+  btn.textContent=el.type==='password'?'👁':'🙈';
+}
+
+// ════════════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════════════
+async function doLogin(){
+  const id=V('LG-ID'),pw=V('LG-PW');
+  const ci=V('LG-CI').toUpperCase().replace(/\s/g,'');
+  I('LG-ERR').textContent='';
+  if(!id||!pw){I('LG-ERR').textContent='Fill all fields.';return;}
+  if(ci!==CAPS.LG){I('LG-ERR').textContent='Wrong CAPTCHA code.';genCap('LG');return;}
+  try{
+    const r=await API('/api/auth/login',{method:'POST',body:{identifier:id,password:pw}});
+    TOK=r.token;ME=r;
+    localStorage.setItem('hc_t',TOK);localStorage.setItem('hc_u',JSON.stringify(ME));
+    refreshUI();closeM('ML');
+    ['LG-ID','LG-PW','LG-CI'].forEach(x=>SV(x,''));genCap('LG');
+    toast('ok','✓ Welcome back, '+r.username+'!');
+  }catch(e){I('LG-ERR').textContent=e.message;genCap('LG');}
+}
+
+async function doReg(){
+  const em=V('RG-EM'),us=V('RG-US'),mc=V('RG-MC'),pw=V('RG-PW'),p2=V('RG-P2');
+  const ci=V('RG-CI').toUpperCase().replace(/\s/g,'');
+  I('RG-ERR').textContent='';
+  if(!em||!us||!pw||!p2){I('RG-ERR').textContent='Fill all required fields.';return;}
+  if(pw!==p2){I('RG-ERR').textContent='Passwords do not match.';return;}
+  if(ci!==CAPS.RG){I('RG-ERR').textContent='Wrong CAPTCHA code.';genCap('RG');return;}
+  try{
+    const r=await API('/api/auth/register',{method:'POST',body:{email:em,username:us,mc_username:mc,password:pw,confirm_password:p2}});
+    TOK=r.token;ME=r;
+    localStorage.setItem('hc_t',TOK);localStorage.setItem('hc_u',JSON.stringify(ME));
+    refreshUI();closeM('MR');
+    ['RG-EM','RG-US','RG-MC','RG-PW','RG-P2','RG-CI'].forEach(x=>SV(x,''));genCap('RG');
+    toast('ok','✓ Account created! Welcome, '+r.username+'!');
+  }catch(e){I('RG-ERR').textContent=e.message;genCap('RG');}
+}
+
+async function doLogout(){
+  try{await API('/api/auth/logout',{method:'POST'});}catch(e){}
+  ME=null;TOK=null;
+  localStorage.removeItem('hc_t');localStorage.removeItem('hc_u');
+  refreshUI();GO('home');toast('ok','Logged out.');
+}
+
+// ════════════════════════════════════════════════════
+// SERVER STATUS
+// ════════════════════════════════════════════════════
+async function checkStatus(){
+  try{
+    const d=await API('/api/serverstatus');
+    const dot=I('DOT'),txt=I('STXT');
+    if(d.online){dot.className='dot ON';txt.textContent=`${d.players?.online||0}/${d.players?.max||0} online`;}
+    else{dot.className='dot';txt.textContent='Offline';}
+    renderStatus(d);
+  }catch(e){const d=I('DOT');if(d)d.className='dot';}
+}
+
+function renderStatus(d){
+  const el=I('HOME-SRV');if(!el)return;
+  if(!d.online){el.innerHTML='<p style="color:var(--r2);text-align:center;padding:18px">⚠ Server currently offline.</p>';return;}
+  const pl=d.players?.online||0,mx=d.players?.max||200;
+  const subs=[
+    {n:'🌍 Lobby / Proxy',c:pl},
+    {n:'🛏️ Bedwars',c:Math.floor(pl*.35)},
+    {n:'❤️ Lifesteal',c:Math.floor(pl*.20)},
+    {n:'☁️ SkyWars',c:Math.floor(pl*.20)},
+    {n:'🌲 Survival',c:Math.floor(pl*.15)},
+    {n:'⚔️ Practice (×2)',c:Math.floor(pl*.10)},
+  ];
+  el.innerHTML=`<div style="text-align:center;margin-bottom:14px">
+    <span style="font-family:'Oxanium',sans-serif;font-size:1.8rem;color:var(--grn);font-weight:800">${pl}</span>
+    <span style="color:var(--tx2)"> / ${mx} players online</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:6px">
+      ${subs.map(s=>`<div class="sbar"><span class="sbar-n">${s.n}</span><span class="sbar-c">${s.c} 🟢</span></div>`).join('')}
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════
+// SKIN VIEWER — All proxied through Flask, no crafatar
+// ════════════════════════════════════════════════════
+function initSV3D(){
+  if(SV3D)return;
+  try{
+    SV3D=new skinview3d.SkinViewer({canvas:I('SV'),width:260,height:360,
+      skin:'/api/skin/texture/Steve'   // default Steve skin via our proxy
+    });
+    SV3D.animation=new skinview3d.WalkingAnimation();
+    SV3D.animation.speed=0.6;
+    SV3D.controls.enableRotate=true;
+    SV3D.controls.enableZoom=true;
+    SV3D.autoRotate=true;SV3D.autoRotateSpeed=0.9;SV3D.fov=70;
+  }catch(e){console.warn('SV3D init:',e);}
+}
+
+async function doSkin(){
+  const uname=V('SK-IN').trim(); if(!uname)return;
+  const btn=I('SK-BTN'); btn.textContent='⏳'; btn.disabled=true;
+  I('SK-ERR').textContent='';
+  try{
+    // Get UUID via Mojang (proxied through Flask)
+    const md=await API(`/api/mc/uuid/${enc(uname)}`);
+    if(!md.id) throw new Error('Player not found on Mojang');
+    LAST_UUID=md.id; LAST_UNAME=md.name;
+
+    const uuidFmt=md.id.replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/,'$1-$2-$3-$4-$5');
+
+    // ★ Use our Flask proxy for the head image, NOT crafatar
+    I('SK-HEAD').src=`/api/skin/head/${md.name}/72`;
+    I('SK-HEAD').onerror=()=>{ I('SK-HEAD').src=`/api/skin/head/Steve/72`; };
+
+    I('SK-NAME').textContent=md.name;
+    I('SK-UUID').innerHTML=`<span style="color:var(--tx2)">UUID:</span> ${uuidFmt}`;
+
+    // ★ Skin download via Flask proxy
+    I('SK-DL').href=`/api/skin/texture/${md.id}`;
+
+    I('SK-INFO').style.display='block';
+
+    // Load Hellcore stats
+    try{
+      const pd=await API(`/api/stats/${enc(md.name)}`);
+      const rk=Object.entries(pd.ranks||{}).map(([m,r])=>
+        `<span class="rb rb-${rbcls(r)}">${r.toUpperCase()} <span style="font-size:.56rem;opacity:.7">${m}</span></span>`
+      ).join(' ');
+      I('SK-RANKS').innerHTML=rk||'<span style="font-size:.74rem;color:var(--tx2)">Not on Hellcore</span>';
+      const chips=Object.entries(pd.stats||{}).map(([m,s])=>
+        `<span class="tag" style="margin:2px">${mIC(m)} ${cap(m)}: ${s.wins||0}W ${s.kills||0}K</span>`
+      ).join('');
+      I('SK-STAT-MINI').innerHTML=chips;
+    }catch(e2){
+      I('SK-RANKS').innerHTML='<span style="font-size:.74rem;color:var(--tx2)">Not registered on Hellcore</span>';
+    }
+
+    load3D(md.name, md.id);
+  }catch(e){I('SK-ERR').textContent=e.message;}
+  btn.textContent='🔍 Look Up'; btn.disabled=false;
+}
+
+function load3D(username, uuid){
+  initSV3D(); if(!SV3D)return;
+  // ★ Load skin via Flask proxy — no crafatar
+  const skinUrl=`/api/skin/texture/${username}`;
+  SV3D.loadSkin(skinUrl).catch(()=>{});
+  // ★ Load cape via Flask proxy
+  const capeUrl=`/api/skin/cape/${username}`;
+  SV3D.loadCape(capeUrl)
+    .then(()=>{const e=I('SV-INFO');if(e)e.textContent='🪄 Cape loaded';})
+    .catch(()=>{const e=I('SV-INFO');if(e)e.textContent='No cape for this player';});
+}
+function reload3D(){ if(LAST_UNAME) load3D(LAST_UNAME,LAST_UUID); }
+
+// ════════════════════════════════════════════════════
+// LEADERBOARD
+// ════════════════════════════════════════════════════
+async function loadLB(){
+  const mode=V('LB-M'),stat=V('LB-S');
+  const el=I('LB-R');
+  el.innerHTML='<div class="ld"><div class="sp"></div>Loading…</div>';
+  try{
+    const d=await API(`/api/lb/${mode}?stat=${stat}`);
+    if(!d.length){el.innerHTML='<div class="empty">No data yet.</div>';return;}
+    el.innerHTML=d.map((p,i)=>`<div class="lr ${i===0?'r1':i===1?'r2':i===2?'r3':''}">
+      <span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span>
+      <span style="display:flex;align-items:center;gap:6px">
+        <!-- ★ Head via Flask proxy -->
+        <img src="/api/skin/head/${enc(p.mc_username||p.username)}/22"
+          width="22" height="22" style="image-rendering:pixelated;border-radius:3px"
+          onerror="this.style.display='none'">
+        ${esc(p.username)}
+      </span>
+      <span>${p.wins||0}</span><span>${p.kills||0}</span><span>${p.deaths||0}</span>
+      <span>${p.deaths>0?((p.kills/p.deaths).toFixed(2)):'∞'}</span>
+      <span>${p.rank_name?`<span class="rb rb-${rbcls(p.rank_name)}">${p.rank_name.toUpperCase()}</span>`:'—'}</span>
+    </div>`).join('');
+  }catch(e){el.innerHTML='<div class="empty">Could not load.</div>';}
+}
+
+async function loadPS(){
+  const uname=V('PS-IN').trim(); if(!uname)return;
+  const el=I('PS-RES');
+  el.innerHTML='<div class="ld"><div class="sp"></div></div>';
+  try{
+    const d=await API(`/api/stats/${enc(uname)}`);
+    const modes=['bedwars','lifesteal','skywars','survival','practice'];
+    el.innerHTML=`<div class="p" style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <img src="/api/skin/head/${enc(d.user.mc_username||uname)}/64"
+          width="64" height="64" style="image-rendering:pixelated;border-radius:7px"
+          onerror="this.style.display='none'">
+        <div>
+          <div style="font-family:'Oxanium',sans-serif;font-size:1rem;color:var(--g);font-weight:700">${esc(d.user.username)}</div>
+          <div style="margin:4px 0">${Object.entries(d.ranks||{}).map(([m,r])=>
+            `<span class="rb rb-${rbcls(r)}">${r.toUpperCase()} <span style="font-size:.57rem">${m}</span></span>`
+          ).join(' ')}</div>
+          ${d.economy?`<div style="font-size:.76rem;color:var(--tx2)">💛 ${d.economy.server_gold} Gold · ⚪ ${d.economy.server_iron} Iron</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="g3">${modes.map(m=>{const s=d.stats[m]||{};return `<div class="p">
+      <div class="stitle">${mIC(m)} ${cap(m)}</div>
+      <table style="width:100%;font-size:.79rem;border-collapse:collapse">
+        <tr><td style="color:var(--tx2)">Wins</td><td style="font-weight:700">${s.wins||0}</td></tr>
+        <tr><td style="color:var(--tx2)">Kills</td><td>${s.kills||0}</td></tr>
+        <tr><td style="color:var(--tx2)">Deaths</td><td>${s.deaths||0}</td></tr>
+        <tr><td style="color:var(--tx2)">K/D</td><td>${s.deaths>0?((s.kills/s.deaths).toFixed(2)):'∞'}</td></tr>
+        <tr><td style="color:var(--tx2)">Coins</td><td>${s.coins||0}</td></tr>
+      </table></div>`;}).join('')}</div>`;
+  }catch(e){el.innerHTML='<div class="empty">Player not found.</div>';}
+}
+
+// ════════════════════════════════════════════════════
+// FORUMS
+// ════════════════════════════════════════════════════
+async function loadForums(){
+  const cat=V('F-CAT'),el=I('F-ROWS');
+  el.innerHTML='<div class="ld"><div class="sp"></div></div>';
+  try{
+    const d=await API(`/api/forums${cat?'?cat='+cat:''}`);
+    if(!d.length){el.innerHTML='<div class="empty">No threads yet. Be the first!</div>';return;}
+    el.innerHTML=d.map(f=>`<div class="frow" onclick="openForum(${f.id})">
+      <div>
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px">
+          <span style="font-weight:600">${esc(f.title)}</span><span class="tag">${f.category}</span>
+        </div>
+        <div style="font-size:.72rem;color:var(--tx2)">By <strong style="color:var(--tx)">${esc(f.author_name)}</strong>
+          <span class="rb rb-${f.author_role}" style="margin-left:3px">${f.author_role}</span>
+          · ${fmtD(f.created_at)} · 👁 ${f.views}</div>
+      </div>
+      <div style="text-align:right;font-size:.72rem;color:var(--tx2)">💬 ${f.reply_count}</div>
+    </div>`).join('');
+  }catch(e){el.innerHTML='<div class="empty">Could not load forums.</div>';}
+}
+
+async function openForum(id){
+  CUR_FORUM=id;
+  I('F-LIST').style.display='none';I('F-THREAD').style.display='block';
+  const el=I('F-TC');el.innerHTML='<div class="ld"><div class="sp"></div></div>';
+  try{
+    const d=await API(`/api/forums/${id}`);
+    const f=d.forum,canDel=ME&&(ME.id===f.author_id||isAdmin());
+    el.innerHTML=`<div class="p" style="margin-bottom:13px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+        <div>
+          <h2 style="font-family:'Oxanium',sans-serif;color:var(--g);margin-bottom:5px">${esc(f.title)}</h2>
+          <div style="font-size:.73rem;color:var(--tx2)">By <strong style="color:var(--tx)">${esc(f.author_name)}</strong>
+            <span class="rb rb-${f.author_role}" style="margin-left:3px">${f.author_role}</span>
+            · ${fmtD(f.created_at)}</div>
+        </div>
+        ${canDel?`<button class="btn bred bsm" onclick="delForum(${f.id})">🗑 Delete</button>`:''}
+      </div>
+      <div class="dv"></div>
+      <p style="color:var(--tx2);line-height:1.85">${esc(f.content).replace(/\n/g,'<br>')}</p>
+    </div>
+    <div style="color:var(--g);font-family:'Oxanium',sans-serif;font-size:.86rem;margin-bottom:9px">💬 ${d.replies.length} Replies</div>
+    ${d.replies.map(r=>{
+      const st=['helper','mod','dev','admin','owner','founder'].includes(r.author_role);
+      const cdr=ME&&(ME.id===r.author_id||isAdmin());
+      return `<div class="frep ${st?'staff':''}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="font-size:.72rem;color:var(--tx2)"><strong style="color:var(--tx)">${esc(r.author_name)}</strong>
+            <span class="rb rb-${r.author_role}" style="margin-left:3px">${r.author_role}</span>
+            · ${fmtD(r.created_at)}</div>
+          ${cdr?`<button class="btn bred bxs" onclick="delReply(${r.id})">🗑</button>`:''}
+        </div>
+        <p style="color:var(--tx2);font-size:.83rem">${esc(r.content).replace(/\n/g,'<br>')}</p>
+      </div>`;
+    }).join('')}`;
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--r2)">Could not load thread.</div>';}
+}
+
+function backF(){I('F-LIST').style.display='';I('F-THREAD').style.display='none';CUR_FORUM=null;}
+async function submitF(){
+  const t=V('NF-TI'),c=V('NF-CO'),ca=V('NF-CA');
+  if(!t||!c){toast('err','Fill all fields');return;}
+  try{await API('/api/forums',{method:'POST',body:{title:t,content:c,category:ca}});
+    closeM('MF');SV('NF-TI','');SV('NF-CO','');toast('ok','Thread posted!');loadForums();}
+  catch(e){toast('err',e.message);}
+}
+async function postReply(){
+  if(!ME){openM('ML');return;}
+  const c=V('F-RPLY').trim();if(!c)return;
+  try{await API(`/api/forums/${CUR_FORUM}/replies`,{method:'POST',body:{content:c}});
+    SV('F-RPLY','');toast('ok','Reply posted!');openForum(CUR_FORUM);}
+  catch(e){toast('err',e.message);}
+}
+async function delForum(id){
+  if(!confirm('Delete this thread?'))return;
+  try{await API(`/api/forums/${id}`,{method:'DELETE'});backF();loadForums();toast('ok','Deleted.');}
+  catch(e){toast('err',e.message);}
+}
+async function delReply(id){
+  if(!confirm('Delete reply?'))return;
+  try{await API(`/api/forums/replies/${id}`,{method:'DELETE'});openForum(CUR_FORUM);}
+  catch(e){toast('err',e.message);}
+}
+
+// ════════════════════════════════════════════════════
+// TICKETS
+// ════════════════════════════════════════════════════
+async function loadTix(){
+  if(!ME)return;
+  const el=I('TIX-L');if(!el)return;
+  el.innerHTML='<div class="ld"><div class="sp"></div></div>';
+  try{const d=await API('/api/tickets');renderTixList(d,el);}
+  catch(e){el.innerHTML='<div class="empty">Log in to view tickets.</div>';}
+}
+async function loadProfTix(){
+  if(!ME)return;
+  const el=I('PR-TIX-L');if(!el)return;
+  try{const d=await API('/api/tickets');renderTixList(d,el);}catch(e){}
+}
+function renderTixList(d,el){
+  if(!d.length){el.innerHTML='<div class="empty">No tickets.</div>';return;}
+  el.innerHTML=d.map(t=>`<div class="p" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px" onclick="openTix(${t.id})">
+    <div><div style="font-weight:600">${esc(t.title)}</div>
+      <div style="font-size:.72rem;color:var(--tx2)">${t.category} · ${fmtD(t.created_at)} · By ${esc(t.author_name)}</div></div>
+    <span style="font-size:.75rem;font-weight:700;color:${t.status==='open'?'var(--grn)':'var(--r2)'}">${t.status.toUpperCase()}</span>
+  </div>`).join('');
+}
+async function openTix(id){
+  I('TIX-LIST').style.display='none';I('TIX-DET').style.display='block';
+  const el=I('TIX-DET-C');el.innerHTML='<div class="ld"><div class="sp"></div></div>';
+  try{
+    const d=await API(`/api/tickets/${id}`);
+    const t=d.ticket,canCl=ME&&(isStaff()||ME.id===t.author_id);
+    el.innerHTML=`<div class="p" style="margin-bottom:13px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+        <div>
+          <h2 style="font-family:'Oxanium',sans-serif;color:var(--g)">${esc(t.title)}</h2>
+          <div style="font-size:.73rem;color:var(--tx2);margin-top:4px">${t.category} · ${fmtD(t.created_at)} · By ${esc(t.author_name)}
+            · <span style="color:${t.status==='open'?'var(--grn)':'var(--r2)'};font-weight:700">${t.status.toUpperCase()}</span></div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${canCl&&t.status==='open'?`<button class="bto bsm" style="color:var(--r2);border-color:var(--r2)" onclick="closeTix(${t.id})">Close Ticket</button>`:''}
+          ${isAdmin()?`<button class="btn bred bsm" onclick="delTix(${t.id})">Delete</button>`:''}
+        </div>
+      </div>
+      <div class="dv"></div>
+      <p style="color:var(--tx2);line-height:1.85">${esc(t.description).replace(/\n/g,'<br>')}</p>
+    </div>
+    <div style="color:var(--g);font-family:'Oxanium',sans-serif;font-size:.84rem;margin-bottom:8px">Messages</div>
+    ${d.messages.map(m=>{const mine=ME&&m.author_id===ME.id;return `<div class="tmsg${mine?' mine':''}">
+      <div style="font-size:.7rem;color:var(--tx2);margin-bottom:4px"><strong style="color:var(--tx)">${esc(m.author_name)}</strong>
+        <span class="rb rb-${m.author_role}" style="margin-left:3px">${m.author_role}</span>
+        · ${fmtD(m.created_at)}</div>
+      <p style="font-size:.83rem">${esc(m.content).replace(/\n/g,'<br>')}</p>
+    </div>`;}).join('')}
+    ${t.status==='open'?`<div class="p" style="margin-top:11px">
+      <div class="fg"><textarea id="TIX-RPLY" class="inp" rows="3" placeholder="Write a message…"></textarea></div>
+      <button class="btn" onclick="sendTixMsg(${t.id})">Send</button>
+    </div>`:'<div class="empty">This ticket is closed.</div>'}`;
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--r2)">Could not load.</div>';}
+}
+function closeTixD(){I('TIX-LIST').style.display='';I('TIX-DET').style.display='none';loadTix();}
+async function submitTix(){
+  if(!ME){closeM('MT');openM('ML');return;}
+  const ti=V('NT-TI'),de=V('NT-DE'),ca=V('NT-CA');
+  if(!ti||!de){toast('err','Fill all fields');return;}
+  try{await API('/api/tickets',{method:'POST',body:{title:ti,description:de,category:ca}});
+    closeM('MT');SV('NT-TI','');SV('NT-DE','');toast('ok','Ticket submitted!');loadTix();loadProfTix();}
+  catch(e){toast('err',e.message);}
+}
+async function sendTixMsg(id){
+  const c=V('TIX-RPLY')?.trim();if(!c)return;
+  try{await API(`/api/tickets/${id}/msg`,{method:'POST',body:{content:c}});openTix(id);}
+  catch(e){toast('err',e.message);}
+}
+async function closeTix(id){await API(`/api/tickets/${id}/close`,{method:'POST'});toast('ok','Ticket closed.');openTix(id);}
+async function delTix(id){if(!confirm('Delete ticket?'))return;await API(`/api/tickets/${id}`,{method:'DELETE'});closeTixD();toast('ok','Deleted.');}
+
+// ════════════════════════════════════════════════════
+// STORE
+// ════════════════════════════════════════════════════
+const STORE={
+  gl:[
+    {id:'gl-pq',  name:'Priority Queue',  price:4.99, icon:'⚡',cc:'#FFD700',gm:'global', perks:['Skip queue all servers','Lifetime perk','Works everywhere']},
+    {id:'gl-sg1', name:'Server Gold ×100',price:2.99, icon:'💛',cc:'#FFD700',gm:'global', perks:['100 Server Gold','Use in global market','Never expires']},
+    {id:'gl-sg5', name:'Server Gold ×500',price:9.99, icon:'💛',cc:'#FFD700',gm:'global', perks:['500 Server Gold','Best value','Bonus 50']},
+    {id:'gl-si1', name:'Server Iron ×100',price:1.99, icon:'⚪',cc:'#C0C0C0',gm:'global', perks:['100 Server Iron','Trade with players','Never expires']},
+  ],
+  bw_ranks:[
+    {id:'bw-vip',  name:'VIP',  price:4.99,  icon:'💚',cc:'#44ee44',gm:'bedwars', perks:['[VIP] green tag','VIP kit','5% discount','VIP chat','Party cmds']},
+    {id:'bw-vipp', name:'VIP+', price:9.99,  icon:'💠',cc:'#00eedd',gm:'bedwars', perks:['[VIP+] cyan tag','Enhanced kit','All VIP','10% discount']},
+    {id:'bw-mvp',  name:'MVP',  price:19.99, icon:'🔶',cc:'#ffaa00',gm:'bedwars', perks:['[MVP] gold tag','MVP kit','All VIP+','15% disc','Lobby fly']},
+    {id:'bw-mvpp', name:'MVP+', price:39.99, icon:'❤️',cc:'#ff4444',gm:'bedwars', perks:['[MVP+] red tag','Best kit','All MVP','20% disc','Nickname']},
+  ],
+  bw_mystery:[
+    {id:'bw-mb',   name:'Mystery Box',       price:2.99, icon:'📦',cc:'#aa44ff',gm:'bedwars', perks:['Random cosmetic','Exclusive chance','Effect chance']},
+    {id:'bw-md1',  name:'Mystery Dust ×100', price:1.99, icon:'✨',cc:'#cc88ff',gm:'bedwars', perks:['100 Mystery Dust','Craft cosmetics','Trade']},
+    {id:'bw-md5',  name:'Mystery Dust ×500', price:7.99, icon:'✨',cc:'#cc88ff',gm:'bedwars', perks:['500 Mystery Dust','Best value','Bonus 50']},
+  ],
+  bw_coins:[
+    {id:'bw-c1k',  name:'BW Coins 1K',  price:1.99,  icon:'🪙',cc:'#FFD700',gm:'bedwars', perks:['1,000 Bedwars Coins','Buy upgrades','Permanent']},
+    {id:'bw-c5k',  name:'BW Coins 5K',  price:7.99,  icon:'🪙',cc:'#FFD700',gm:'bedwars', perks:['5,000 Bedwars Coins','Best value','Bonus 500']},
+    {id:'bw-c10k', name:'BW Coins 10K', price:14.99, icon:'🪙',cc:'#FFD700',gm:'bedwars', perks:['10,000 Bedwars Coins','Max pack','Bonus 1K']},
+  ],
+};
+const gmR=gm=>[
+  {id:`${gm}-vip`,  name:'VIP',  price:4.99,  icon:'💚',cc:'#44ee44',gm, perks:[`[VIP] on ${cap(gm)}`,'VIP kit','5% discount']},
+  {id:`${gm}-vipp`, name:'VIP+', price:9.99,  icon:'💠',cc:'#00eedd',gm, perks:[`[VIP+] on ${cap(gm)}`,'Enhanced kit','All VIP','10% disc']},
+  {id:`${gm}-mvp`,  name:'MVP',  price:19.99, icon:'🔶',cc:'#ffaa00',gm, perks:[`[MVP] on ${cap(gm)}`,'MVP kit','All VIP+','15% disc','Fly']},
+  {id:`${gm}-mvpp`, name:'MVP+', price:39.99, icon:'❤️',cc:'#ff4444',gm, perks:[`[MVP+] on ${cap(gm)}`,'Best kit','All MVP','20% disc','Nick']},
+];
+
+function buildStores(){
+  rS('S-GL',STORE.gl); bwT('ranks');
+  rS('S-LS',gmR('lifesteal')); rS('S-SW',gmR('skywars'));
+  rS('S-SV',gmR('survival'));  rS('S-PR',gmR('practice'));
+}
+function bwT(t){
+  const m={ranks:STORE.bw_ranks,mystery:STORE.bw_mystery,coins:STORE.bw_coins};
+  rS('S-BW',m[t]);
+  document.querySelectorAll('#BW-T .tab').forEach((b,i)=>b.classList.toggle('ON',['ranks','mystery','coins'][i]===t));
+}
+function rS(id,items){
+  const el=I(id);if(!el)return;
+  el.innerHTML=items.map(it=>`<div class="sc" style="--cc:${it.cc}">
+    <div class="sc-ic">${it.icon}</div>
+    <div class="sc-nm" style="color:${it.cc}">${it.name}</div>
+    <div class="sc-pr">$${it.price.toFixed(2)}</div>
+    <ul class="sc-pk">${it.perks.map(p=>`<li>${p}</li>`).join('')}</ul>
+    <button class="btn" style="width:100%;margin-top:auto"
+      onclick="addCart('${it.id}','${it.name.replace(/'/g,"\\'")}',${it.price},'${it.gm}')">🛒 Add to Cart</button>
+  </div>`).join('');
+}
+
+// ════════════════════════════════════════════════════
+// CART
+// ════════════════════════════════════════════════════
+async function addCart(id,name,price,gm){
+  if(!ME){openM('ML');toast('err','Log in to add items.');return;}
+  try{await API('/api/cart',{method:'POST',body:{item_id:id,item_name:name,item_price:price,gamemode:gm}});
+    updateCart();toast('ok',`✓ ${name} added!`);}
+  catch(e){toast('err',e.message);}
+}
+async function updateCart(){
+  try{const d=await API('/api/cart');CART_N=d.length;
+    const b=I('CBG');if(b){b.style.display=CART_N?'flex':'none';b.textContent=CART_N;}}
+  catch(e){}
+}
+async function renderCart(){
+  if(!ME){GO('home');openM('ML');return;}
+  const el=I('CART-L'),se=I('CART-TOT');
+  el.innerHTML='<div class="ld"><div class="sp"></div></div>';
+  try{
+    const d=await API('/api/cart');
+    if(!d.length){el.innerHTML='<div class="empty">Cart is empty.<br><br><button class="btn" onclick="GO(\'store\')">Browse Store</button></div>';se.innerHTML='';return;}
+    el.innerHTML=d.map(it=>`<div class="p" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+      <div><div style="font-weight:600">${esc(it.item_name)}</div>
+        <div style="font-size:.72rem;color:var(--tx2)">${it.gamemode}</div></div>
+      <div style="display:flex;align-items:center;gap:9px">
+        <span style="color:var(--g);font-weight:700">$${parseFloat(it.item_price).toFixed(2)}</span>
+        <button class="btn bred bxs" onclick="remCart(${it.id})">✕</button>
+      </div>
+    </div>`).join('');
+    const total=d.reduce((s,i)=>s+parseFloat(i.item_price),0);
+    se.innerHTML=`<div class="p" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:9px">
+      <span><span style="color:var(--tx2)">Total: </span>
+        <span style="font-size:1.3rem;font-weight:800;font-family:'Oxanium',sans-serif;color:var(--g)">$${total.toFixed(2)}</span></span>
+      <div style="display:flex;gap:7px">
+        <button class="bto bsm" onclick="clearCart()">🗑 Clear</button>
+        <button class="btn" onclick="window.open('https://hellcore.tebex.io','_blank')">💳 Checkout via Tebex</button>
+      </div>
+    </div>`;
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--r2)">Could not load cart.</div>';}
+}
+async function remCart(id){await API(`/api/cart/${id}`,{method:'DELETE'});updateCart();renderCart();}
+async function clearCart(){if(!confirm('Clear cart?'))return;await API('/api/cart/clear',{method:'DELETE'});updateCart();renderCart();}
+
+// ════════════════════════════════════════════════════
+// PROFILE
+// ════════════════════════════════════════════════════
+function loadProfile(){
+  if(!ME)return;
+  I('PR-NAME').textContent=ME.username;
+  I('PR-EMAIL').textContent=ME.email;
+  I('PR-MC').textContent=ME.mc_username||'Not linked';
+  I('PR-ROLE').innerHTML=`<span class="rb rb-${ME.role}">${ME.role.toUpperCase()}</span>`;
+  if(ME.mc_username) I('PR-HEAD').src=`/api/skin/head/${enc(ME.mc_username)}/78`;
+  API(`/api/stats/${enc(ME.username)}`).then(d=>{
+    const e=d.economy||{};
+    I('PR-ECO').innerHTML=`<div style="display:flex;gap:18px">
+      <div>💛 <strong>${e.server_gold||0}</strong> <span style="color:var(--tx2);font-size:.76rem">Gold</span></div>
+      <div>⚪ <strong>${e.server_iron||0}</strong> <span style="color:var(--tx2);font-size:.76rem">Iron</span></div>
+    </div>`;
+    const rk=I('PR-RANKS');
+    if(Object.keys(d.ranks||{}).length){
+      rk.innerHTML=Object.entries(d.ranks).map(([m,r])=>
+        `<div style="margin-bottom:4px">${mIC(m)} ${cap(m)}: <span class="rb rb-${rbcls(r)}">${r.toUpperCase()}</span></div>`
+      ).join('');
+    }else{rk.innerHTML='<div style="color:var(--tx2);font-size:.8rem">No ranks yet.</div>';}
+  }).catch(()=>{});
+}
+async function loadInv(){
+  const el=I('PR-INV-L');if(!el||!ME)return;
+  try{
+    const d=await API('/api/inventory');
+    if(!d.length){el.innerHTML='<div class="empty">No items in inventory.</div>';return;}
+    el.innerHTML=`<div class="g3">${d.map(it=>`<div class="p" style="text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:5px">${it.item_type==='rank'?'👑':'🎁'}</div>
+      <div style="font-weight:700;color:var(--g)">${esc(it.item_name)}</div>
+      <div style="font-size:.7rem;color:var(--tx2)">${it.gamemode} · ${fmtD(it.created_at)}</div>
+      ${it.gifted_by?'<div style="font-size:.66rem;color:var(--tx2);margin-top:2px">🎁 Gifted</div>':''}
+    </div>`).join('')}</div>`;
+  }catch(e){el.innerHTML='<div class="empty">Could not load.</div>';}
+}
+async function loadGifts(){
+  const el=I('PGIFTS');if(!el||!ME)return;
+  try{
+    const d=await API('/api/gifts/pending');
+    if(!d.length){el.innerHTML='<div class="empty">No pending gifts.</div>';return;}
+    el.innerHTML=d.map(g=>`<div class="p" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+      <div><div style="font-weight:600">🎁 ${esc(g.item_name)}</div>
+        <div style="font-size:.72rem;color:var(--tx2)">From: ${esc(g.from_name)} · ${g.gamemode}</div></div>
+      <button class="btn bgrn bsm" onclick="claimGift(${g.id})">Claim</button>
+    </div>`).join('');
+  }catch(e){}
+}
+async function sendGift(){
+  const to=V('GFT-TO'),it=V('GFT-IT'),gm=V('GFT-GM');
+  if(!to){toast('err','Enter recipient username');return;}
+  try{await API('/api/gifts/send',{method:'POST',body:{to_username:to,item_name:it,item_type:'rank',gamemode:gm}});
+    toast('ok',`Gift sent to ${to}!`);SV('GFT-TO','');}
+  catch(e){toast('err',e.message);}
+}
+async function claimGift(id){
+  try{await API(`/api/gifts/${id}/claim`,{method:'POST'});toast('ok','Gift claimed!');loadGifts();loadInv();}
+  catch(e){toast('err',e.message);}
+}
+
+// ════════════════════════════════════════════════════
+// STAFF & ABOUT
+// ════════════════════════════════════════════════════
+async function loadAbout(){
+  const el=I('ABOUT-S');if(!el)return;
+  try{
+    const d=await API('/api/staff');
+    if(!d.length){el.innerHTML='<div class="empty">No staff listed.</div>';return;}
+    // ★ Staff avatars via Flask proxy
+    el.innerHTML=`<div class="g4">${d.map(s=>`<div style="text-align:center">
+      <img src="/api/skin/head/${enc(s.mc_username||s.username)}/46"
+        width="46" height="46" style="image-rendering:pixelated;border-radius:5px;margin-bottom:6px"
+        onerror="this.style.display='none'">
+      <div style="font-weight:600;font-size:.85rem">${esc(s.username)}</div>
+      <span class="rb rb-${s.role}">${s.role.toUpperCase()}</span>
+    </div>`).join('')}</div>`;
+  }catch(e){el.innerHTML='<div class="empty">Could not load.</div>';}
+}
+async function loadStaff(){
+  const el=I('STAFF-PNL');if(!el||!isStaff()){if(el)el.innerHTML='<div class="empty" style="color:var(--r2)">Access denied.</div>';return;}
+  try{
+    const tix=await API('/api/tickets');
+    const open=tix.filter(t=>t.status==='open');
+    el.innerHTML=`<div class="p"><div class="stitle">Open Tickets (${open.length})</div>
+      ${open.length?open.map(t=>`<div style="border-bottom:1px solid var(--bd);padding:8px 0;display:flex;justify-content:space-between;cursor:pointer"
+        onclick="GO('tickets');setTimeout(()=>openTix(${t.id}),100)">
+        <div><div style="font-weight:600">${esc(t.title)}</div>
+          <div style="font-size:.72rem;color:var(--tx2)">${t.category} · By ${esc(t.author_name)}</div></div>
+        <span style="color:var(--grn);font-size:.75rem;font-weight:700">OPEN</span>
+      </div>`).join(''):'<div class="empty">No open tickets! 🎉</div>'}
+    </div>`;
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--r2)">Access denied.</div>';}
+}
+
+// ════════════════════════════════════════════════════
+// ADMIN
+// ════════════════════════════════════════════════════
+function adT(t){
+  ['ADM-U','ADM-S','ADM-R','ADM-E'].forEach((id,i)=>I(id).style.display=['users','stats','ranks','eco'][i]===t?'':'none');
+  document.querySelectorAll('#pg-admin .tab').forEach((b,i)=>b.classList.toggle('ON',['users','stats','ranks','eco'][i]===t));
+}
+async function loadAdmU(){
+  const el=I('ADM-TBL');if(!el)return;
+  try{
+    const d=await API('/api/admin/users');
+    el.innerHTML=`<div style="overflow-x:auto"><table class="dtbl">
+      <thead><tr><th>Username</th><th>Email</th><th>MC Name</th><th>Role</th><th>Joined</th><th>Set Role</th></tr></thead>
+      <tbody>${d.map(u=>`<tr>
+        <td style="font-weight:600">${esc(u.username)}</td>
+        <td style="font-size:.75rem;color:var(--tx2)">${esc(u.email)}</td>
+        <td>${esc(u.mc_username||'—')}</td>
+        <td><span class="rb rb-${u.role}">${u.role}</span></td>
+        <td style="font-size:.7rem;color:var(--tx2)">${fmtD(u.created_at)}</td>
+        <td><select onchange="aRole(${u.id},this.value)"
+          style="background:rgba(0,0,0,.5);border:1px solid var(--bd);color:var(--tx);padding:2px 5px;border-radius:3px;font-size:.7rem">
+          ${['player','helper','mod','dev','admin','owner','founder','youtube','famous'].map(r=>
+            `<option value="${r}"${r===u.role?' selected':''}>${r}</option>`
+          ).join('')}
+        </select></td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--r2)">Admin access required.</div>';}
+}
+async function aRole(uid,role){try{await API(`/api/admin/users/${uid}/role`,{method:'POST',body:{role}});toast('ok','Role updated!');}catch(e){toast('err',e.message);}}
+async function aStats(){try{await API('/api/admin/setstats',{method:'POST',body:{username:V('AS-U'),gamemode:V('AS-M'),kills:+V('AS-K'),deaths:+V('AS-D'),wins:+V('AS-W'),coins:+V('AS-C')}});toast('ok','Stats saved!');}catch(e){toast('err',e.message);}}
+async function aRank(){try{await API('/api/admin/setrank',{method:'POST',body:{username:V('AR-U'),gamemode:V('AR-M'),rank:V('AR-R')}});toast('ok','Rank set!');}catch(e){toast('err',e.message);}}
+async function aEco(){try{await API('/api/admin/seteco',{method:'POST',body:{username:V('AE-U'),gold:+V('AE-G'),iron:+V('AE-I')}});toast('ok','Economy updated!');}catch(e){toast('err',e.message);}}
+
+// ════════════════════════════════════════════════════
+// TAB SWITCHES
+// ════════════════════════════════════════════════════
+function plT(t){
+  ['T-SKIN','T-LB','T-STATS'].forEach((id,i)=>I(id).style.display=['skin','lb','stats'][i]===t?'':'none');
+  document.querySelectorAll('#pg-players .tab').forEach((b,i)=>b.classList.toggle('ON',['skin','lb','stats'][i]===t));
+  if(t==='lb')loadLB();if(t==='skin')initSV3D();
+}
+function prT(t){
+  ['PR-OV','PR-INV','PR-GIFTS','PR-TIX'].forEach((id,i)=>I(id).style.display=['ov','inv','gifts','tix'][i]===t?'':'none');
+  document.querySelectorAll('#pg-profile .tab').forEach((b,i)=>b.classList.toggle('ON',['ov','inv','gifts','tix'][i]===t));
+}
+
+// ════════════════════════════════════════════════════
+// API — all calls to Flask backend
+// ════════════════════════════════════════════════════
+async function API(url,opts={}){
+  const h={'Content-Type':'application/json'};
+  if(TOK) h['X-Auth-Token']=TOK;
+  const res=await fetch(url,{method:opts.method||'GET',headers:h,body:opts.body?JSON.stringify(opts.body):undefined});
+  const d=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(d.error||`Error ${res.status}`);
+  return d;
+}
+
+// ════════════════════════════════════════════════════
+// TOASTS
+// ════════════════════════════════════════════════════
+function toast(type,msg){
+  const c=I('TOASTS');
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.innerHTML=`<span>${type==='ok'?'✓':'✗'}</span><span>${esc(msg)}</span>`;
+  c.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .28s';el.style.opacity='0';setTimeout(()=>el.remove(),280);},3500);
+}
+
+// ════════════════════════════════════════════════════
+// UTILITIES
+// ════════════════════════════════════════════════════
+const I  = id => document.getElementById(id);
+const V  = id => I(id)?.value||'';
+const SV = (id,v) => { const e=I(id); if(e) e.value=v; };
+const esc= s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const enc= s => encodeURIComponent(s||'');
+const cap= s => s.charAt(0).toUpperCase()+s.slice(1);
+const mIC= m => ({bedwars:'🛏️',lifesteal:'❤️',skywars:'☁️',survival:'🌲',practice:'⚔️'}[m]||'🎮');
+const rbcls=r => r.replace('+','plus').toLowerCase();
+const fmtD = s => { try{return new Date(s).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}catch(e){return s||'';} };
+const copyIP= () => navigator.clipboard?.writeText('mc.hellcore.in').then(()=>toast('ok','✓ IP copied!'));
+</script>
+</body>
+</html>
